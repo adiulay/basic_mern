@@ -12,7 +12,6 @@ exports.genre_list = function(req, res) {
             if (err) { return next(err) }
 
             //Successful, so render
-            console.log(list_genres)
             res.render('genre_list', { title: 'Genre List', genre_list: list_genres});
         })
 };
