@@ -1,6 +1,7 @@
 var Genre = require('../models/genre');
 var Book = require('../models/book');
 var async = require('async');
+var mongoose = require('mongoose');
 
 // Display list of all Genre.
 exports.genre_list = function(req, res) {
@@ -11,6 +12,7 @@ exports.genre_list = function(req, res) {
             if (err) { return next(err) }
 
             //Successful, so render
+            console.log(list_genres)
             res.render('genre_list', { title: 'Genre List', genre_list: list_genres});
         })
 };
@@ -20,12 +22,12 @@ exports.genre_detail = function(req, res) {
     // res.send('NOT IMPLEMENTED: Genre detail: ' + req.params.id);
     async.parallel({
         genre: function(callback) {
-            Genre.findById(req.params.id)
+            Genre.findById(mongoose.Types.ObjectId(req.params.id))
               .exec(callback);
         },
 
         genre_books: function(callback) {
-            Book.find({ 'genre': req.params.id })
+            Book.find({ 'genre': mongoose.Types.ObjectId(req.params.id) })
               .exec(callback);
         },
 
