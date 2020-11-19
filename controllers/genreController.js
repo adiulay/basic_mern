@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 const { body,validationResult } = require("express-validator");
 
 // Display list of all Genre.
-exports.genre_list = function(req, res) {
+exports.genre_list = function(req, res, next) {
     // res.send('NOT IMPLEMENTED: Genre list');
     Genre.find()
         .sort([['name', 'ascending']])
@@ -18,7 +18,7 @@ exports.genre_list = function(req, res) {
 };
 
 // Display detail page for a specific Genre.
-exports.genre_detail = function(req, res) {
+exports.genre_detail = function(req, res, next) {
     // res.send('NOT IMPLEMENTED: Genre detail: ' + req.params.id);
     async.parallel({
         genre: function(callback) {
@@ -102,7 +102,7 @@ exports.genre_create_post =  [
 ];
 
 // Display Genre delete form on GET.
-exports.genre_delete_get = function(req, res) {
+exports.genre_delete_get = function(req, res, next) {
     // res.send('NOT IMPLEMENTED: Genre delete GET');
     async.parallel({
       genre: function(callback) {
@@ -122,7 +122,7 @@ exports.genre_delete_get = function(req, res) {
 };
 
 // Handle Genre delete on POST.
-exports.genre_delete_post = function(req, res) {
+exports.genre_delete_post = function(req, res, next) {
     // res.send('NOT IMPLEMENTED: Genre delete POST');
     async.parallel({
       genre: function(callback) {
@@ -152,7 +152,7 @@ exports.genre_delete_post = function(req, res) {
 };
 
 // Display Genre update form on GET.
-exports.genre_update_get = function(req, res) {
+exports.genre_update_get = function(req, res, next) {
   // res.send('NOT IMPLEMENTED: Genre update GET');
   Genre.findById(req.params.id, function(err, genre) {
     if (err) { return next(err); }

@@ -4,7 +4,7 @@ var Book = require('../models/book');
 const { body,validationResult } = require('express-validator');
 
 // Display list of all Authors.
-exports.author_list = function(req, res) {
+exports.author_list = function(req, res, next) {
     // res.send('NOT IMPLEMENTED: Author list');
     Author.find()
     .sort([['family_name', 'ascending']])
@@ -16,7 +16,7 @@ exports.author_list = function(req, res) {
 };
 
 // Display detail page for a specific Author.
-exports.author_detail = function(req, res) {
+exports.author_detail = function(req, res, next) {
     // res.send('NOT IMPLEMENTED: Author detail: ' + req.params.id);
     async.parallel({
         author: function(callback) {
@@ -91,7 +91,7 @@ exports.author_create_post = [
 ];
 
 // Display Author delete form on GET.
-exports.author_delete_get = function(req, res) {
+exports.author_delete_get = function(req, res, next) {
     // res.send('NOT IMPLEMENTED: Author delete GET');
     async.parallel({
         author: function(callback) {
@@ -111,7 +111,7 @@ exports.author_delete_get = function(req, res) {
 };
 
 // Handle Author delete on POST.
-exports.author_delete_post = function(req, res) {
+exports.author_delete_post = function(req, res, next) {
     // res.send('NOT IMPLEMENTED: Author delete POST');
     async.parallel({
         author: function(callback) {
@@ -140,7 +140,7 @@ exports.author_delete_post = function(req, res) {
 };
 
 // Display Author update form on GET.
-exports.author_update_get = function(req, res) {
+exports.author_update_get = function(req, res, next) {
     // res.send('NOT IMPLEMENTED: Author update GET');
     Author.findById(req.params.id, function (err, author) {
         if (err) { return next(err); }

@@ -121,7 +121,7 @@ exports.bookinstance_delete_post = function(req, res, next) {
 };
 
 // Display BookInstance update form on GET.
-exports.bookinstance_update_get = function(req, res) {
+exports.bookinstance_update_get = function(req, res, next) {
     // res.send('NOT IMPLEMENTED: BookInstance update GET');
     // Get book, authors and genres for form.
     async.parallel({
@@ -132,7 +132,7 @@ exports.bookinstance_update_get = function(req, res) {
             Book.find(callback)
         },
 
-        }, function(err, results, next) {
+        }, function(err, results) {
             if (err) { return next(err); }
             if (results.bookinstance==null) { // No results.
                 var err = new Error('Book copy not found');
@@ -175,7 +175,7 @@ exports.bookinstance_update_post = [
         if (!errors.isEmpty()) {
             // There are errors so render the form again, passing sanitized values and errors.
             Book.find({},'title')
-                .exec(function (err, books, next) {
+                .exec(function (err, books) {
                     if (err) { return next(err); }
                     // Successful, so render.
                     res.render('bookinstance_form', { title: 'Update BookInstance', book_list : books, selected_book : bookinstance.book._id , errors: errors.array(), bookinstance:bookinstance });
