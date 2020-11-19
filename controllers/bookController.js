@@ -30,6 +30,10 @@ exports.index = function(req, res) {
             Genre.countDocuments({}, callback);
         }
     }, function(err, results) {
+        if (err != null) {
+            res.render('error')
+        }
+        console.log('error? jimmy?',err)
         res.render('index', { title: 'Local Library Home', error: err, data: results });
     });
 };
@@ -67,7 +71,7 @@ exports.book_detail = function(req, res) {
           BookInstance.find({ 'book': req.params.id })
           .exec(callback);
         },
-    }, function(err, results) {
+    }, function(err, results, next) {
         if (err) { return next(err); }
         if (results.book==null) { // No results.
             var err = new Error('Book not found');
@@ -90,7 +94,7 @@ exports.book_create_get = function(req, res) {
         genres: function(callback) {
             Genre.find(callback);
         },
-    }, function(err, results) {
+    }, function(err, results, next) {
         if (err) { return next(err); }
         res.render('book_form', { title: 'Create Book', authors: results.authors, genres: results.genres });
     });
@@ -179,12 +183,12 @@ exports.book_delete_get = function(req, res) {
         bookInstance: function(callback) {
             BookInstance.find({ 'book': req.params.id }).exec(callback)
         }
-    }, function(err, results) {
-        console.log(results)
+    }, function(err, results, next) {
         if (err) { return next(err); }
         if (results.bookInstance==null) { // No results.
             res.redirect('/catalog/books');
         }
+    
         // // Successful, so render.
         res.render('book_delete', { title: 'Delete Book', book: results.book, bookInstance: results.bookInstance } );
     });

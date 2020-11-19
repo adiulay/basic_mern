@@ -194,7 +194,7 @@ exports.author_update_post = [
         }
         else {
             // Data from form is valid. Update the record.
-            Author.findByIdAndUpdate(req.params.id, author, {}, function (err, theauthor) {
+            Author.findByIdAndUpdate(req.params.id, author, {}, function (err, theauthor, next) {
                 if (err) { return next(err); }
                 // Successful - redirect to genre detail page.
                 res.redirect(theauthor.url);

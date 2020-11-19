@@ -19,7 +19,7 @@ exports.bookinstance_list = function(req, res, next) {
 
 
 // Display detail page for a specific BookInstance.
-exports.bookinstance_detail = function(req, res) {
+exports.bookinstance_detail = function(req, res, next) {
     // res.send('NOT IMPLEMENTED: BookInstance detail: ' + req.params.id);
     
     BookInstance.findById(req.params.id)
@@ -37,7 +37,7 @@ exports.bookinstance_detail = function(req, res) {
 };
 
 // Display BookInstance create form on GET.
-exports.bookinstance_create_get = function(req, res) {
+exports.bookinstance_create_get = function(req, res, next) {
     // res.send('NOT IMPLEMENTED: BookInstance create GET');
     Book.find({},'title')
     .exec(function (err, books) {
@@ -95,7 +95,7 @@ exports.bookinstance_create_post = [
 ];
 
 // Display BookInstance delete form on GET.
-exports.bookinstance_delete_get = function(req, res) {
+exports.bookinstance_delete_get = function(req, res, next) {
     // res.send('NOT IMPLEMENTED: BookInstance delete GET');
     async.parallel({
         book_instance: function(callback) {
@@ -103,14 +103,14 @@ exports.bookinstance_delete_get = function(req, res) {
         }
     }, function(err, results) {
         if (err) { return next(err); }
-
+        
         //Successful, so render
         res.render('bookinstance_delete', {title: 'Delete Book Instance', book_instance: results.book_instance })
     })
 };
 
 // Handle BookInstance delete on POST.
-exports.bookinstance_delete_post = function(req, res) {
+exports.bookinstance_delete_post = function(req, res, next) {
     // res.send('NOT IMPLEMENTED: BookInstance delete POST');
     BookInstance.findByIdAndRemove(req.body.bookinstance, function deleteBookInstance(err) {
         if (err) { return next(err); }
@@ -132,7 +132,7 @@ exports.bookinstance_update_get = function(req, res) {
             Book.find(callback)
         },
 
-        }, function(err, results) {
+        }, function(err, results, next) {
             if (err) { return next(err); }
             if (results.bookinstance==null) { // No results.
                 var err = new Error('Book copy not found');
@@ -175,7 +175,7 @@ exports.bookinstance_update_post = [
         if (!errors.isEmpty()) {
             // There are errors so render the form again, passing sanitized values and errors.
             Book.find({},'title')
-                .exec(function (err, books) {
+                .exec(function (err, books, next) {
                     if (err) { return next(err); }
                     // Successful, so render.
                     res.render('bookinstance_form', { title: 'Update BookInstance', book_list : books, selected_book : bookinstance.book._id , errors: errors.array(), bookinstance:bookinstance });
@@ -184,7 +184,7 @@ exports.bookinstance_update_post = [
         }
         else {
             // Data from form is valid.
-            BookInstance.findByIdAndUpdate(req.params.id, bookinstance, {}, function (err,thebookinstance) {
+            BookInstance.findByIdAndUpdate(req.params.id, bookinstance, {}, function (err,thebookinstance, next) {
                 if (err) { return next(err); }
                    // Successful - redirect to detail page.
                    res.redirect(thebookinstance.url);

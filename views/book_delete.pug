@@ -25,6 +25,13 @@ block content
   else
     p Do you really want to delete this book?
 
+    h2 Title
+    p #{book.title}
+    h2 Summary
+    p #{book.summary}
+    h2 isbn
+    p #{book.isbn}
+
     form(method='POST' action='')
         div.form-group
         input#bookid.form-control(type='hidden',name='bookid', required='true', value=book._id )
