@@ -16,7 +16,9 @@ var DB_USER = process.env.DB_USER;
 var DB_PASS = process.env.DB_PASS;
 var DB_DATA = process.env.DB_DATA;
 var mongoose = require('mongoose');
-var mongoDB = `mongodb+srv://${DB_USER}:${DB_PASS}@cluster0.zjxbz.mongodb.net/${DB_DATA}?retryWrites=true&w=majority`;
+var dev_db_url = 'mongodb+srv://admin:P@ssw0rd@cluster0.zjxbz.mongodb.net/localLibrary?retryWrites=true&w=majority'
+var mongoDB = process.env.MONGODB_URI || dev_db_url;
+// var mongoDB = `mongodb+srv://${DB_USER}:${DB_PASS}@cluster0.zjxbz.mongodb.net/${DB_DATA}?retryWrites=true&w=majority`;
 mongoose.connect(mongoDB, { useNewUrlParser: true , useUnifiedTopology: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
