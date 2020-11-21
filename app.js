@@ -4,6 +4,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var compression = require('compression');
+var helmet = require('helmet');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -14,12 +16,17 @@ var DB_USER = process.env.DB_USER;
 var DB_PASS = process.env.DB_PASS;
 var DB_DATA = process.env.DB_DATA;
 var mongoose = require('mongoose');
-var mongoDB = `mongodb+srv://${DB_USER}:${DB_PASS}@cluster0.zjxbz.mongodb.net/${DB_DATA}?retryWrites=true&w=majority`;
+var dev_db_url = 'mongodb+srv://admin:P@ssw0rd@cluster0.zjxbz.mongodb.net/localLibrary?retryWrites=true'
+var mongoDB = process.env.MONGODB_URI || dev_db_url;
+// var mongoDB = `mongodb+srv://${DB_USER}:${DB_PASS}@cluster0.zjxbz.mongodb.net/${DB_DATA}?retryWrites=true&w=majority`;
 mongoose.connect(mongoDB, { useNewUrlParser: true , useUnifiedTopology: true});
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var app = express();
+
+app.use(compression()); //Compress all routes
+app.use(helmet()); //HTTP headers that help protect your app from well-known web vulnerabilities
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
