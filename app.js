@@ -1,4 +1,3 @@
-// require('dotenv').config()
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -12,9 +11,6 @@ var usersRouter = require('./routes/users');
 var catalogRouter = require('./routes/catalog');  //Import routes for "catalog" area of site
 
 //Set up mongoose connection
-var DB_USER = process.env.DB_USER;
-var DB_PASS = process.env.DB_PASS;
-var DB_DATA = process.env.DB_DATA;
 var mongoose = require('mongoose');
 var dev_db_url = 'mongodb+srv://admin:P@ssw0rd@cluster0.zjxbz.mongodb.net/localLibrary?retryWrites=true'
 var mongoDB = process.env.MONGODB_URI || dev_db_url;
