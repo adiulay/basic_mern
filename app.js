@@ -4,6 +4,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var compression = require('compression');
+var helmet = require('helmet');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -20,6 +22,9 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 var app = express();
+
+app.use(compression()); //Compress all routes
+app.use(helmet()); //HTTP headers that help protect your app from well-known web vulnerabilities
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
