@@ -3,8 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var compression = require('compression');
-var helmet = require('helmet');
+var compression = require('compression'); //Web servers can often compress the HTTP response sent back to a client, significantly reducing the time required for the client to get and load the page.
+var helmet = require('helmet'); // Helmet is a middleware package. It can set appropriate HTTP headers that help protect your app
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
